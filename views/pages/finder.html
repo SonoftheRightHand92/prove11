@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Game Finder</title>
+    <script>
+        function getList() {
+            var xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    var games = JSON.parse(this.responseText);
+                    var list = document.getElementById("list");
+                    list.innerHTML = "<ul>";
+                    games.forEach(function(value) {
+                        list.innerHTML += "<li>" + "Game: " + value.game + " Release Date: " + value.release + "</li>";
+                    });
+                    list.innerHTML += "</ul>";
+                }
+            };
+            xhttp.open("GET", "/getGames", true);
+            xhttp.send();
+        }
+    </script>
+</head>
+<body>
+    <h1>Which console would you like to view games for?</h1>
+
+    <form method="post" action="/getGames">
+        <select id="console" name="consoles">
+            <option value="game_cube">Game Cube</option>
+            <option value="nintendo_64">Nintendo 64</option>
+            <option value="pc">PC</option>
+            <option value="play_station">Play Station</option>
+            <option value="play_station_2">Play Station 2</option>
+            <option value="xbox">Xbox</option>
+            <option value="xbox_360">Xbox 360</option>
+            <option value="xbox_one">Xbox One</option>
+        </select><br>
+        <input type="submit" value="Get List of Games">
+    </form><br><br>
+</body>
+</html>

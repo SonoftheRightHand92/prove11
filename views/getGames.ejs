@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        table {
+            font-family: arial, sans-serif;
+            border-collapse: collapse;
+            width: 100%;   
+        }
+
+        td, th {
+            border: 1px solid #dddddd;
+            text-align: left;
+            padding: 8px;
+        }
+
+        tr:nth-child(even) {
+            background-color: #dddddd;
+        }
+    </style>
+    <script>
+        function add() {
+            var name = document.getElementById("name").value;
+            var date = document.getElementById("date").value;
+            var xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    var games = JSON.parse(this.responseText);
+                    var string = "";
+                    var list = document.getElementById("table");
+                    string = "<table><tr><th>ID</th><th>Game</th><th>Release Date</th><th>Remove from table</th></tr>";
+                    games.forEach(function(value) {
+                        string += "<tr><td>" + value.id + "</td><td>" + value.game + "</td><td>" + value.release + "</td><td><button type='button' id='" + value.id + "' onclick='remove(this.id)'>Remove</button></td></tr>";
+                    });
+                    string += "</table>";
+                    list.innerHTML = string;
+                }
+            };
+            xhttp.open("GET", "/add?name=" + name + "&date=" + date, false);
+            xhttp.send();
+        }
+
+        function remove(id) {
+            var xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    var games = JSON.parse(this.responseText);
+                    var string = "";
+                    var list = document.getElementById("table");
+                    string = "<table><tr><th>ID</th><th>Game</th><th>Release Date</th><th>Remove from table</th></tr>";
+                    games.forEach(function(value) {
+                        string += "<tr><td>" + value.id + "</td><td>" + value.game + "</td><td>" + value.release + "</td><td><button type='button' id='" + value.id + "' onclick='remove(this.id)'>Remove</button></td></tr>";
+                    });
+                    string += "</table>";
+                    list.innerHTML = string;
+                }
+            };
+            xhttp.open("GET", "/remove?id=" + id, false);
+            xhttp.send();
+        }
+    </script>
+</head>
+
+<body>
+    <h1>Games found in table</h1>
+
+    <div id=table>
+        <table>
+            <tr>
+                <th>ID</th>
+                <th>Game</th>
+                <th>Release Date</th>
+                <th>Remove from table</th>
+            </tr>
+            <% for(var game of games) { %>
+            <tr><td><%= game.id %></td><td><%= game.game %></td><td><%= game.release %></td><td><button type="button" id="<%= game.id %>" onclick="remove(this.id)">Remove</button></td></tr>
+            <% } %>
+        </table>
+    </div>
+    <div>
+        <h2>Add a game to the library</h2>
+        <form>
+            Name:<br>
+            <input type="text" id="name"><br><br>
+
+            Release Date:<br>
+            <input type="text" id="date"><br><br>
+
+            <button type="button" onclick="add()">Submit</button>
+        </form>
+    </div>
+
+</body>
+</html>
