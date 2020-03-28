@@ -1,6 +1,9 @@
 const express = require('express')
 const path = require('path')
 const PORT = process.env.PORT || 5000
+const bcrypt = require('bcrypt');
+const saltRounds = 10;
+
 
 const { Pool } = require('pg');
 const pool = new Pool({
@@ -20,13 +23,103 @@ app.set('view engine', 'ejs');
 app.use(express.urlencoded({extended: true}));
 app.use(express.json());
 
-app.get('/', (req, res) => res.sendFile('finder.html', { root: __dirname + "/views/pages"}));
+app.get('/', (req, res) => res.sendFile('homepage.html', { root: __dirname + "/views/pages"}));
+
+app.get('/create_account.html', (req, res) => res.sendFile('create_account.html', { root: __dirname + "/views/pages"}));
 
 app.set("port", (process.env.PORT || 5000));
 
 app.get("/remove", remove);
 
 app.get("/add", add);
+
+app.post("/login", function(req, res) {
+    console.log("Searching for User Account");
+
+    name = req.body.name;
+    password = req.body.password;
+
+    console.log("Name: ", name, "Password: ", password);
+
+    var sql = "SELECT name FROM users";
+
+    pool.query(sql, function(err, result) {
+        if (err) {
+            console.log("error with the database: USERS occured");
+            console.log(err);
+        }
+
+        console.log("Found database result: " + JSON.stringify(result.rows));
+
+        names = result.rows;
+
+        found = false;
+        names.forEach(function (element) {
+            if (element.name === name) {
+                found = true;
+            }
+        });
+
+        if (!found) {
+            console.log("Invalid User Name");
+            res.sendFile('homepage.html', { root: __dirname + "/views/pages"})
+            return;
+        }
+    });
+ 
+    var sql = "SELECT password FROM users WHERE name = '" + name + "'";
+
+    pool.query(sql, function(err, result) {
+        if (err) {
+            console.log("error with the database: USERS occured");
+            console.log(err);
+        }
+
+        console.log("Found database result: " + JSON.stringify(result.rows));
+
+        passwords = result.rows;
+
+        found = false;
+        passwords.forEach(async function (element) {
+            console.log("COMPARING: ", password, element.password);
+            found = await bcrypt.compare(password, element.password);
+            console.log("FOUND: ", found);
+            if (found) {
+                console.log("Going to next page");
+                res.sendFile('finder.html', { root: __dirname + "/views/pages"});
+            }
+    
+            else {
+                console.log("Invalid Password");
+                res.sendFile('homepage.html', { root: __dirname + "/views/pages"});
+            }
+        });
+    });
+
+});
+
+app.post("/create", async function(req, res) {
+    console.log("Creating a new User Account");
+
+    name = req.body.name;
+    password = req.body.password;
+
+    hashPassword = await bcrypt.hash(password, saltRounds);
+
+    var sql = "INSERT INTO users (name, password) VALUES ('" + name + "', '" + hashPassword + "')";
+
+    pool.query(sql, function(err, result) {
+        if (err) {
+            console.log("error with the database: USERS occured");
+            console.log(err);
+        }
+
+        console.log(result.affectedRows);
+
+        res.sendFile('homepage.html', { root: __dirname + "/views/pages"});
+
+    });
+});
 
 app.post("/getGames", function(req, res) {
     console.log("getting table");

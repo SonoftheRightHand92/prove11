@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Account</title>
+
+    <script>
+        function validate() {
+            var password = document.getElementById("pw").value;
+
+            var passwordCheck = document.getElementById("pwCheck").value;
+
+            if (password === passwordCheck) {
+                return;
+            }
+
+            else {
+                return false;
+            }
+        }
+    </script>
+</head>
+<body>
+    <h1>Create an Account</h1>
+
+    <form method="post" action="/create" onsubmit="return validate()">
+        <fieldset>
+            <legend><b>Account Details</b></legend>
+            
+            User Name:<br>
+            <input type="text" name="name"><br><br>
+
+            Password:<br>
+            <input type="password" name="password" id="pw"><br><br>
+
+            Confirm Password:<br>
+            <input type="password" name="passwordCheck" id=pwCheck><br><br>
+
+            <input type="submit" value="Create Account">
+        </fieldset>
+    </form>
+</body>
+</html>
