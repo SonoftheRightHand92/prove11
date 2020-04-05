@@ -25,6 +25,10 @@ app.use(express.json());
 
 app.get('/', (req, res) => res.sendFile('homepage.html', { root: __dirname + "/views/pages"}));
 
+app.get('/homepage.html', (req, res) => res.sendFile('homepage.html', { root: __dirname + "/views/pages"}));
+
+app.get('/finder.html', (req, res) => res.sendFile('finder.html', { root: __dirname + "/views/pages"}));
+
 app.get('/create_account.html', (req, res) => res.sendFile('create_account.html', { root: __dirname + "/views/pages"}));
 
 app.set("port", (process.env.PORT || 5000));

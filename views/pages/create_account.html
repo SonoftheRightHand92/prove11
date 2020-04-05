@@ -20,11 +20,70 @@
             }
         }
     </script>
+
+    <style>
+        h1 {
+            text-align: center;
+        }
+
+        ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            background-color: #333;
+        }
+
+        li {
+            float: left;
+        }
+
+        li a {
+            display: block;
+            color: white;
+            text-align: center;
+            padding: 14px 16px;
+            text-decoration: none;
+        }
+
+        li a:hover:not(.active) {
+            background-color: #111;
+        }
+
+        .active {
+            background-color: #4CAF50;
+        }
+
+        .center {
+            width: 400px;
+            text-align: center;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        input[type=submit] {
+            font-size: 16px;
+            background-color: black;
+            color: white;
+            padding-left: 15px;
+            padding-right: 15px;
+            padding-top: 5px;
+            padding-bottom: 5px;
+            border: none;
+            border-radius: 4px;
+        }
+    </style>
 </head>
 <body>
+
+    <ul>
+        <li><a class="active" href="homepage.html">Home</a></li>
+        <li><a href="create_account.html">Sign Up</a></li>
+    </ul>
+
     <h1>Create an Account</h1>
 
-    <form method="post" action="/create" onsubmit="return validate()">
+    <form method="post" action="/create" onsubmit="return validate()" class="center">
         <fieldset>
             <legend><b>Account Details</b></legend>
             

@@ -17,6 +17,57 @@
         tr:nth-child(even) {
             background-color: #dddddd;
         }
+
+        ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            background-color: #333;
+        }
+
+        li {
+            float: left;
+        }
+
+        li a {
+            display: block;
+            color: white;
+            text-align: center;
+            padding: 14px 16px;
+            text-decoration: none;
+        }
+
+        li a:hover:not(.active) {
+            background-color: #111;
+        }
+
+        .active {
+            background-color: #4CAF50;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        .center {
+            width: 400px;
+            text-align: center;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        input[type=submit] {
+            font-size: 16px;
+            background-color: black;
+            color: white;
+            padding-left: 15px;
+            padding-right: 15px;
+            padding-top: 5px;
+            padding-bottom: 5px;
+            border: none;
+            border-radius: 4px;
+        }
     </style>
     <script>
         function add() {
@@ -62,6 +113,12 @@
 </head>
 
 <body>
+
+    <ul>
+        <li><a class="active" href="homepage.html">Home</a></li>
+        <li><a href="finder.html">Consoles</a></li>
+    </ul>
+
     <h1>Games found in table</h1>
 
     <div id=table>
@@ -76,17 +133,19 @@
             <tr><td><%= game.id %></td><td><%= game.game %></td><td><%= game.release %></td><td><button type="button" id="<%= game.id %>" onclick="remove(this.id)">Remove</button></td></tr>
             <% } %>
         </table>
-    </div>
+    </div><br><br><br>
     <div>
-        <h2>Add a game to the library</h2>
-        <form>
-            Name:<br>
-            <input type="text" id="name"><br><br>
+        <form class="center">
+            <fieldset>
+                <legend><b>Add a game to the library</b></legend>
+                Name:<br>
+                <input type="text" id="name"><br><br>
 
-            Release Date:<br>
-            <input type="text" id="date"><br><br>
+                Release Date:<br>
+                <input type="text" id="date" placeholder="YYYY-MM-DD"><br><br>
 
-            <button type="button" onclick="add()">Submit</button>
+                <button type="button" onclick="add()">Submit</button>
+            </fieldset>
         </form>
     </div>
 

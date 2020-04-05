@@ -22,11 +22,81 @@
             xhttp.send();
         }
     </script>
+
+    <style>
+        h1 {
+            text-align: center;
+        }
+
+        ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            background-color: #333;
+        }
+
+        li {
+            float: left;
+        }
+
+        li a {
+            display: block;
+            color: white;
+            text-align: center;
+            padding: 14px 16px;
+            text-decoration: none;
+        }
+
+        li a:hover:not(.active) {
+            background-color: #111;
+        }
+
+        .active {
+            background-color: #4CAF50;
+        }
+
+        form {
+            font-size: 25px;
+        }
+
+        form > select {
+            font-size: 25px;
+        }
+
+        form > input {
+            font-size: 25px;
+        }
+
+        .center {
+            text-align: center;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        input[type=submit] {
+            font-size: 25px;
+            background-color: black;
+            color: white;
+            padding-left: 15px;
+            padding-right: 15px;
+            padding-top: 5px;
+            padding-bottom: 5px;
+            border: none;
+            border-radius: 4px;
+        }
+    </style>
 </head>
 <body>
+
+    <ul>
+        <li><a class="active" href="homepage.html">Home</a></li>
+        <li><a href="finder.html">Consoles</a></li>
+    </ul>
+    
     <h1>Which console would you like to view games for?</h1>
 
-    <form method="post" action="/getGames">
+    <form method="post" action="/getGames" class="center">
         <select id="console" name="consoles">
             <option value="game_cube">Game Cube</option>
             <option value="nintendo_64">Nintendo 64</option>
@@ -36,7 +106,7 @@
             <option value="xbox">Xbox</option>
             <option value="xbox_360">Xbox 360</option>
             <option value="xbox_one">Xbox One</option>
-        </select><br>
+        </select>               
         <input type="submit" value="Get List of Games">
     </form><br><br>
 </body>
